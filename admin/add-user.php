@@ -3,10 +3,11 @@
 use PSpell\Config;
 
 include "header.php";
+include "config.php";
+
 
 if (isset($_POST['save'])) {
 
-    include "config.php";
 
 
     $fname = mysqli_real_escape_string($conn, $_POST['fname']);
@@ -25,7 +26,7 @@ if (isset($_POST['save'])) {
             $sql = "INSERT INTO user (first_name, last_name, username, password, role) VALUES ('{$fname}', '{$lname}', '{$user}', '{$password}', '{$role}');";
             if ($conn->query($sql) === TRUE) {
                 echo "<div class='alert alert-success'>User Added Successfully.</div>";
-                header('Location: {hostname}/admin/users.php');
+                header("Location: {$hostname}/admin/users.php");
             } else {
                 echo "<div class='alert alert-danger'>Error: " . $sql . "<br>" . $conn->error . "</div>";
             }
