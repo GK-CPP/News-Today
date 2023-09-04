@@ -1,3 +1,14 @@
+<?php
+include "config.php";
+session_start();
+
+if (isset($_SESSION['username'])) {
+    header("Location: {$hostname}/admin/post.php");
+}
+
+?>
+
+
 <!doctype html>
 <html>
 
@@ -19,9 +30,6 @@
                     <img class="logo" src="images/news.jpg">
                     <h3 class="heading">Admin</h3>
                     <!-- Form Start -->
-
-
-
 
                     <form action=" <?php $_SERVER['PHP_SELF']; ?> " method="POST">
                         <div class="form-group">
