@@ -12,9 +12,12 @@
 
                 <?php
                 include "config.php";
+                $limit = 3;
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                $offset = ($page - 1) * $limit;
 
                 try {
-                    $sql = "SELECT * FROM user order by user_id desc";
+                    $sql = "SELECT * FROM user order by user_id desc limit {$offset},{$limit}";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
                         $row = $result->fetch_all(MYSQLI_ASSOC);
@@ -52,13 +55,37 @@
                     die();
                 }
 
-                ?>
+                try {
+                    $sql1 = "SELECT * FROM user";
+                    $result1 = $conn->query($sql1);
+                    $row1 = $result1->fetch_all(MYSQLI_ASSOC);
 
-                <ul class='pagination admin-pagination'>
-                    <li class="active"><a>1</a></li>
-                    <li><a>2</a></li>
-                    <li><a>3</a></li>
-                </ul>
+                    if (count($row1) > 0) {
+                        $total_record = count($row1);
+
+                        $total_page = ceil($total_record / $limit);
+                        echo "<ul class='pagination admin-pagination'>";
+                        if ($page > 1) {
+                            echo "<li class='active' ><a href='users.php?page=" . ($page - 1) . "' >prev</a></li>";
+                        }
+                        for ($i = 1; $i <= $total_page; $i++) {
+                            if ($i == $page) {
+                                $active = "active";
+                            } else {
+                                $active = "";
+                            }
+                            echo "<li class='{$active}'><a href='users.php?page=" . $i . "'>" . $i . "</a></li>";
+                        }
+                        if ($page < $total_page) {
+                            echo "<li class='active'><a href='users.php?page=" . ($page + 1) . "'>next</a></li>";
+                        }
+                        echo "</ul>";
+                    }
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                    die();
+                }
+                ?>
             </div>
         </div>
     </div>
