@@ -1,4 +1,24 @@
-<?php include "header.php"; ?>
+<?php include "header.php";
+
+include "config.php";
+
+if (isset($_POST['submit'])) {
+    $userid = mysqli_real_escape_string($conn, $_POST['user_id']);
+    $fname = mysqli_real_escape_string($conn, $_POST['f_name']);
+    $lname = mysqli_real_escape_string($conn, $_POST['l_name']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $role = mysqli_real_escape_string($conn, $_POST['role']);
+    //$password=mysqli_real_escape_string($conn,$_POST['password']);
+
+    $sql = "UPDATE user SET first_name='{$fname}',last_name='{$lname}',username='{$username}',role='{$role}' WHERE user_id='{$userid}'";
+    $result = $conn->query($sql);
+
+    if (mysqli_query($conn, $sql)) {
+        header("Location: {$hostname}/admin/users.php");
+    }
+}
+
+?>
 <div id="admin-content">
     <div class="container">
         <div class="row">
@@ -8,10 +28,10 @@
             <div class="col-md-offset-4 col-md-4">
                 <!-- Form Start -->
                 <?php
-                include "config.php";
                 $id = $_GET['id'];
 
                 try {
+
                     $sql = "SELECT * FROM user WHERE user_id = '{$id}'";
                     $result = $conn->query($sql);
                     if ($result->num_rows > 0) {
@@ -19,7 +39,7 @@
 
                 ?>
 
-                        <form action="" method="POST">
+                        <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
                             <div class="form-group">
                                 <input type="hidden" name="user_id" class="form-control" value="<?php echo $row['user_id']; ?>" placeholder="">
                             </div>
@@ -39,11 +59,11 @@
                                 <label>User Role</label>
                                 <select class="form-control" name="role" value="<?php echo $row['role']; ?>">
                                     <?php if ($row['role'] == 1) {  ?>
-                                        echo "<option value='0'>normal User</option>";
-                                        echo "<option value='1' selected>Admin</option>";
+                                        <option value='0'>normal User</option>
+                                        <option value='1' selected>Admin</option>
                                     <?php } else { ?>
-                                        echo "<option value='1'>Admin</option>";
-                                        echo "<option value='0' selected>normal User</option>";
+                                        <option value='1'>Admin</option>
+                                        <option value='0' selected>normal User</option>
 
                                     <?php } ?>
                                 </select>
