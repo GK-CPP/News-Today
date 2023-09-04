@@ -1,8 +1,11 @@
 <?php
 
-
-
 include "config.php";
+session_start();
+
+if ($_SESSION['role'] == '0') {
+    header("Location: {$hostname}/admin/post.php");
+}
 
 $userid = $_GET['id'];
 

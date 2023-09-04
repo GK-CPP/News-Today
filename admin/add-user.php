@@ -4,7 +4,9 @@ use PSpell\Config;
 
 include "header.php";
 include "config.php";
-
+if ($_SESSION['role'] == '0') {
+    header("Location: {$hostname}/admin/post.php");
+}
 
 if (isset($_POST['save'])) {
 
