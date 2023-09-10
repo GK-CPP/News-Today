@@ -10,6 +10,7 @@ if ($_SESSION['role'] == '0') {
 
 if (isset($_POST['save'])) {
 
+    $userId = mysqli_real_escape_string($conn, $_POST['user_id']);
     $fname = mysqli_real_escape_string($conn, $_POST['fname']);
     $lname = mysqli_real_escape_string($conn, $_POST['lname']);
     $user = mysqli_real_escape_string($conn, $_POST['user']);
@@ -47,6 +48,7 @@ if (isset($_POST['save'])) {
             <div class="col-md-offset-3 col-md-6">
                 <!-- Form Start -->
                 <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST" autocomplete="off">
+
                     <div class="form-group">
                         <label>First Name</label>
                         <input type="text" name="fname" class="form-control" placeholder="First Name" required>
