@@ -26,8 +26,8 @@ include "utilis.php";
 
                     if ($_SESSION["role"] == '1') {
                         $sql = "SELECT * FROM post 
-                    left join category on post.category = category.category_id 
-                    left join user on post.author = user.user_id 
+                    inner join category on post.category = category.category_id 
+                    inner join user on post.author = user.user_id 
                     order by post.post_id desc limit {$offset},{$limit}";
                     } elseif ($_SESSION["role"] == '0') {
                         $sql = "SELECT * FROM post 
